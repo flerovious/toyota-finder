@@ -16,19 +16,24 @@ load_dotenv()
 def load_data(filename):
     data = pd.read_csv(filename)
     scaler = MinMaxScaler()
-    data_scaled = scaler.fit_transform(
-        data.iloc[:, 1:]
-    )  # Normalize data excluding identifier columns
-    return pd.DataFrame(data_scaled, columns=data.columns[1:]), scaler
+    # Normalize data excluding identifier columns and 'name of car'
+    data_scaled = scaler.fit_transform(data.drop(columns=["name of car"]))
+    # Concatenate the 'name of car' column back to the scaled DataFrame
+    return (
+        pd.concat(
+            [data["name of car"], pd.DataFrame(data_scaled, columns=data.columns[1:])],
+            axis=1,
+        ),
+        scaler,
+    )
 
 
-# Updated to include scaler
 def find_knn(input_data, data, scaler, n_neighbors=3):
     input_scaled = scaler.transform([input_data])  # Normalize input data
     knn = NearestNeighbors(n_neighbors=n_neighbors)
-    knn.fit(data)  # Fit on normalized data
+    knn.fit(data.iloc[:, 1:])  # Fit on normalized data excluding 'name of car'
     distances, indices = knn.kneighbors(input_scaled)
-    return data.iloc[indices[0]]  # Return the nearest neighbors
+    return data.iloc[indices[0]]  # Return the nearest neighbors including 'name of car'
 
 
 class UserScore(BaseModel):
