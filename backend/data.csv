@@ -1,0 +1,34 @@
+name of car,risk rank,social rank,curiosity rank,moral rank,safety rank,year
+1973 Toyota Celica 1600 GT,6,2,3,4,2,2
+1986 Toyota Celica 2.0 GT,6,2,3,3,3,3
+1994 Toyota Celica GT-Four,8,3,2,3,3,4
+2002 Toyota Celica 1.8,6,3,2,3,3,6
+1993 Toyota MR2 2.0 Turbo,7,2,3,5,2,4
+2009 Toyota iQ,3,1,4,6,1,7
+1990 Toyota 4Runner,2,5,9,4,8,4
+2003 Toyota 4Runner,2,5,8,3,9,6
+2012 Toyota 4Runner,2,6,7,3,9,8
+2025 Toyota 4Runner,3,6,9,2,10,10
+2016 Toyota Mirai,3,5,3,8,5,9
+2021 Toyota Mirai,3,5,3,6,4,10
+2023 Toyota Sequoia,4,9,8,2,8,10
+2008 Toyota Sequoia,5,8,7,2,8,7
+2022 Toyota GR86,9,2,1,5,4,10
+1965 Toyota Crown,1,5,2,5,2,1
+2023 Toyota Crown,4,5,3,7,5,10
+2011 Toyota Land Cruiser,4,5,1,3,6,8
+1972 Toyota Land Cruiser,2,2,7,4,6,2
+2024 Toyota Land Cruiser,5,6,10,2,8,10
+2005 Toyota Prius,2,5,3,9,4,6
+2011 Toyota Prius,3,4,3,8,3,8
+2023 Toyota Prius,3,4,3,8,4,10
+1966 Toyota Sports 800,8,2,1,2,1,1
+2018 Toyota Sienna,2,10,1,3,6,9
+2021 Toyota Sienna,3,10,1,3,7,10
+2017 Toyota Tundra,4,5,8,1,8,9
+2022 Toyota Tundra,5,6,9,1,9,10
+1985 Toyota Van,1,10,1,3,4,3
+2023 Toyota bZ4X,3,5,5,9,6,10
+1999 Toyota Corolla,1,4,1,4,3,5
+2003 Toyota Corolla,1,4,2,4,3,6
+2010 Toyota Corolla S,4,5,2,3,3,7
