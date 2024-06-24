@@ -4,10 +4,10 @@ from typing import Optional
 from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
 from sklearn.neighbors import NearestNeighbors
-import numpy as np
+from sklearn.preprocessing import MinMaxScaler
 import pandas as pd
 
-DEBUG_MODE = False
+DEBUG_MODE = True
 
 load_dotenv()
 
@@ -15,14 +15,19 @@ load_dotenv()
 @st.cache_data
 def load_data(filename):
     data = pd.read_csv(filename)
-    return data
+    scaler = MinMaxScaler()
+    data_scaled = scaler.fit_transform(
+        data.iloc[:, 1:]
+    )  # Normalize data excluding identifier columns
+    return pd.DataFrame(data_scaled, columns=data.columns[1:]), scaler
 
 
-def find_knn(input_data, data, n_neighbors=3):
-    # Assuming the data and input_data are already normalized and in the correct format
+# Updated to include scaler
+def find_knn(input_data, data, scaler, n_neighbors=3):
+    input_scaled = scaler.transform([input_data])  # Normalize input data
     knn = NearestNeighbors(n_neighbors=n_neighbors)
-    knn.fit(data.iloc[:, 1:])  # Fit on data excluding any identifier column
-    distances, indices = knn.kneighbors([input_data])
+    knn.fit(data)  # Fit on normalized data
+    distances, indices = knn.kneighbors(input_scaled)
     return data.iloc[indices[0]]  # Return the nearest neighbors
 
 
@@ -37,7 +42,7 @@ class UserScore(BaseModel):
     )
     curiosity_profile_score: Optional[float] = Field(
         None,
-        description="Score for curiousity (1 - 10 integer, higher means more curious about nature and the world)",
+        description="Score for curiosity (1 - 10 integer, higher means more curious about nature and the world)",
     )
     moral_profile_score: Optional[float] = Field(
         None,
@@ -88,8 +93,8 @@ st.set_page_config(page_title="Toyota Finder")
 st.title("Toyota Finder")
 st.header("Find your perfect toyota")
 
-# Load data
-data = load_data("data.csv")
+# Load data and get scaler
+data, scaler = load_data("data.csv")
 
 # Creating a form to hold our questions and submit button
 with st.form(key="car_preference_form"):
@@ -201,7 +206,8 @@ A6: {year_profile}
         get_year_score(response.year_profile_score),
     ]
 
-    neighbors = find_knn(user_scores, data, n_neighbors=3)
+    # Now including scaler in the kNN search
+    neighbors = find_knn(user_scores, data, scaler, n_neighbors=3)
 
     st.write(response.one_liner)
     st.write(neighbors)
