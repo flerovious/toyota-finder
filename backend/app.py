@@ -33,7 +33,10 @@ def find_knn(input_data, data, scaler, n_neighbors=3):
     knn = NearestNeighbors(n_neighbors=n_neighbors)
     knn.fit(data.iloc[:, 1:])  # Fit on normalized data excluding 'name of car'
     distances, indices = knn.kneighbors(input_scaled)
-    return data.iloc[indices[0]]  # Return the nearest neighbors including 'name of car'
+    return (
+        data.iloc[indices[0]],
+        distances,
+    )  # Return the nearest neighbors including 'name of car'
 
 
 class UserScore(BaseModel):
@@ -212,7 +215,8 @@ A6: {year_profile}
     ]
 
     # Now including scaler in the kNN search
-    neighbors = find_knn(user_scores, data, scaler, n_neighbors=3)
+    neighbors, distances = find_knn(user_scores, data, scaler, n_neighbors=3)
 
     st.write(response.one_liner)
+    st.write(distances)
     st.write(neighbors)
