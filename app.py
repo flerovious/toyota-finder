@@ -1,13 +1,14 @@
-import streamlit as st
-from langchain_core.pydantic_v1 import BaseModel, Field
 from typing import Optional
-from langchain_openai import ChatOpenAI
+
+import pandas as pd
+import streamlit as st
 from dotenv import load_dotenv
+from langchain_core.pydantic_v1 import BaseModel, Field
+from langchain_openai import ChatOpenAI
 from sklearn.neighbors import NearestNeighbors
 from sklearn.preprocessing import MinMaxScaler
-import pandas as pd
 
-DEBUG_MODE = True
+DEBUG_MODE = False
 
 load_dotenv()
 
@@ -106,7 +107,7 @@ data, scaler = load_data("data.csv")
 
 # Creating a form to hold our questions and submit button
 with st.form(key="car_preference_form"):
-    # Each question corresponds to a metric in your UserScore model
+    # Each question corresponds to a metric in the UserScore model
     risk_profile = st.text_area(
         "Describe the riskiest endeavour you've done in your life?"
     )
